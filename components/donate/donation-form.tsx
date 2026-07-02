@@ -1,21 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { CreditCard, Landmark, Lock, ShieldCheck, Loader2 } from "lucide-react";
+import { Lock, Loader2, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycby-upeh4Iglv1sMgF3AAsfuS_8VU-W7t5OxQ8DAYCPjT4A-NtQE3YMXjCVwIWHW3DTkIA/exec";
 
-const METHODS = [
-  { id: "card", label: "Credit / Debit Card", Icon: CreditCard },
-  { id: "paypal", label: "PayPal", Icon: null },
-] as const;
+const PAYPAL_URL = "https://www.paypal.com/ncp/payment/83ZFTP5CLTNF4";
 
 export function DonationForm() {
-  const [method, setMethod] = useState<string>(
-    "https://www.paypal.com/ncp/payment/83ZFTP5CLTNF4",
-  );
   const [updates, setUpdates] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -54,8 +48,8 @@ export function DonationForm() {
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
-      {/* Left: form */}
       <form className="space-y-8" onSubmit={handleSubmit}>
+        {/* Step 1: Info */}
         <div>
           <h3 className="font-serif text-xl font-bold text-forest">
             1. Your Information
@@ -112,102 +106,74 @@ export function DonationForm() {
 
           {submitted && (
             <p className="mt-3 text-sm font-medium text-brand">
-              Your information has been saved. Thank you!
+              Your information has been saved. You can now proceed to donate!
             </p>
           )}
 
           <button
             type="submit"
-            disabled={submitting}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-forest px-6 py-3.5 text-sm font-semibold text-forest-foreground transition-colors hover:bg-forest/90 disabled:opacity-60"
+            disabled={submitting || submitted}
+            className={cn(
+              "mt-6 flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-semibold transition-all duration-200",
+              submitted
+                ? "bg-brand/20 text-brand cursor-default"
+                : "bg-forest text-forest-foreground hover:bg-forest/90 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100",
+            )}
           >
             {submitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Saving...
               </>
+            ) : submitted ? (
+              "INFORMATION SAVED ✓"
             ) : (
-              "SUBMIT & PROCEED TO PAYMENT"
+              "SAVE & CONTINUE"
             )}
           </button>
         </div>
 
+        {/* Step 2: Donate */}
         <div>
-          <h3 className="font-serif text-xl font-bold text-forest">
-            2. Payment
+          <h3
+            className={cn(
+              "font-serif text-xl font-bold transition-colors duration-300",
+              submitted ? "text-forest" : "text-muted-foreground/50",
+            )}
+          >
+            2. Complete Your Donation
           </h3>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            {METHODS.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() =>
-                  window.open(
-                    "https://www.paypal.com/ncp/payment/83ZFTP5CLTNF4",
-                    "_blank",
-                  )
-                }
-                className={cn(
-                  "flex items-center justify-center gap-2 rounded-lg border px-3 py-3 text-sm font-medium transition-colors",
-                  method === id
-                    ? "border-brand bg-brand-soft/40 text-forest"
-                    : "border-input text-muted-foreground hover:border-brand/50",
-                )}
-              >
-                {Icon ? (
-                  <Icon className="h-4 w-4" />
-                ) : (
-                  <span className="text-xs font-bold text-brand-blue">
-                    Pay
-                    <span className="text-brand-blue/70">Pal</span>
-                  </span>
-                )}
-                {id !== "paypal" && label}
-              </button>
-            ))}
-          </div>
 
-          {method === "paypal" && (
-            <p className="mt-4 rounded-lg bg-muted p-4 text-sm text-muted-foreground">
-              You&apos;ll be redirected to PayPal to complete your donation
-              securely.
+          <a
+            href={submitted ? PAYPAL_URL : undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              if (!submitted) e.preventDefault();
+            }}
+            className={cn(
+              "mt-4 flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-base font-semibold transition-all duration-300",
+              submitted
+                ? "bg-brand text-brand-foreground shadow-md hover:bg-brand/90 hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] cursor-pointer animate-in fade-in slide-in-from-bottom-2"
+                : "bg-muted text-muted-foreground/40 cursor-not-allowed",
+            )}
+          >
+            <Heart className="h-5 w-5 fill-current" />
+            DONATE NOW
+          </a>
+
+          {!submitted && (
+            <p className="mt-3 text-center text-xs text-black animate-pulse">
+              Please fill in your information above first.
             </p>
           )}
 
-          <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+          <p className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground">
             <Lock className="h-3.5 w-3.5" />
             Your donation is secure and encrypted.
           </p>
         </div>
       </form>
-
-      {/* Right: summary */}
-      {/* <aside className="h-fit rounded-2xl bg-muted/60 p-6 ring-1 ring-border sm:p-8">
-        <h3 className="font-serif text-xl font-bold text-forest">
-          Your Donation Summary
-        </h3>
-        <div className="mt-6 flex items-center justify-between border-b border-border pb-4 text-sm">
-          <span className="text-muted-foreground">One-time donation</span>
-          <span className="font-semibold text-foreground">$50</span>
-        </div>
-        <div className="mt-4 flex items-center justify-between">
-          <span className="font-serif text-lg font-bold text-forest">Total</span>
-          <span className="font-serif text-lg font-bold text-forest">
-            $50 USD
-          </span>
-        </div>
-        <button
-          type="button"
-          className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-forest px-6 py-3.5 text-sm font-semibold text-forest-foreground transition-colors hover:bg-forest/90"
-        >
-          COMPLETE DONATION
-          <Lock className="h-4 w-4" />
-        </button>
-        <p className="mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <ShieldCheck className="h-5 w-5 text-brand" />
-          Your gift is tax-deductible.
-        </p>
-      </aside> */}
     </div>
   );
 }

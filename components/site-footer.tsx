@@ -51,7 +51,7 @@ export function SiteFooter() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-forest-foreground/10 text-forest-foreground transition-colors hover:bg-brand"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-forest-foreground/10 text-forest-foreground transition-all duration-200 hover:bg-brand hover:scale-110"
                 >
                   <SocialIcon path={path} />
                 </Link>

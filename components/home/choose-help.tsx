@@ -68,7 +68,7 @@ export function ChooseHelp() {
               <div
                 key={tier.title}
                 className={cn(
-                  'relative flex flex-col rounded-xl border bg-background p-5',
+                  'relative flex flex-col rounded-xl border bg-background p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg',
                   tier.popular
                     ? 'border-brand shadow-md'
                     : 'border-border',
@@ -108,7 +108,7 @@ export function ChooseHelp() {
                 </div>
                 <Link
                   href="/donate"
-                  className="mt-4 rounded-md bg-brand py-2.5 text-center text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand/90"
+                  className="mt-4 rounded-md bg-brand py-2.5 text-center text-sm font-semibold text-brand-foreground transition-all duration-200 hover:bg-brand/90 hover:shadow-md hover:scale-[1.03] active:scale-[0.97]"
                 >
                   SPONSOR NOW
                 </Link>

@@ -1,11 +1,12 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { useState } from 'react'
-import { HeartHandshake, Heart, Lock } from 'lucide-react'
+import Image from "next/image";
+import { useState } from "react";
+import { HeartHandshake, Heart, Lock } from "lucide-react";
+import Link from "next/link";
 
 export function CareGiving() {
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState("");
 
   return (
     <div className="rounded-2xl bg-brand-soft/30 p-6 ring-1 ring-brand/10 sm:p-8">
@@ -20,7 +21,7 @@ export function CareGiving() {
                 2. I Care Giving
               </h3>
               <p className="mt-1 text-sm leading-snug text-muted-foreground">
-                Give a gift of any amount.{'\n'}You decide. Your impact is real.
+                Give a gift of any amount.{"\n"}You decide. Your impact is real.
               </p>
             </div>
           </div>
@@ -51,13 +52,14 @@ export function CareGiving() {
               className="w-full bg-transparent text-2xl font-semibold text-foreground outline-none placeholder:text-muted-foreground/60"
             />
           </div> */}
-          <button
+          <Link
             type="button"
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-base font-semibold text-brand-foreground transition-colors hover:bg-brand/90"
+            href="/donate"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-base font-semibold text-brand-foreground transition-all duration-200 hover:bg-brand/90 hover:shadow-md hover:scale-[1.03] active:scale-[0.97]"
           >
             Donate NOW
             <Heart className="h-5 w-5 fill-current" />
-          </button>
+          </Link>
           <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
             <Lock className="h-3.5 w-3.5" />
             One-time gift. Maximum impact.
@@ -65,5 +67,5 @@ export function CareGiving() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -50,7 +50,7 @@ export function SiteHeader() {
           <Link
             href="/donate"
             
-            className="hidden items-center gap-2 rounded-md bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:bg-brand/90 sm:inline-flex"
+            className="hidden items-center gap-2 rounded-md bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground shadow-sm transition-all duration-200 hover:bg-brand/90 hover:shadow-md hover:scale-[1.03] active:scale-[0.97] sm:inline-flex"
           >
             DONATE NOW
             <Heart className="h-4 w-4 fill-current" />

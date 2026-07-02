@@ -7,11 +7,11 @@ import {
   Users,
   ShieldCheck,
   Heart,
-  MessageCircle,
-  HeartHandshake,
 } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { AboutImpactStats } from '@/components/about/about-impact-stats'
+import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'About | JILL Foundation',
@@ -42,12 +42,6 @@ const VALUES = [
   },
 ]
 
-const IMPACT = [
-  { Icon: Users, value: '1,200+', label: 'Individuals Supported' },
-  { Icon: MessageCircle, value: '350+', label: 'Counseling and Medical Sessions Provided' },
-  { Icon: Heart, value: '50+', label: 'Community Workshops' },
-  { Icon: HeartHandshake, value: '20+', label: 'Partner Healthcare Organizations' },
-]
 
 export default function AboutPage() {
   return (
@@ -98,11 +92,12 @@ export default function AboutPage() {
             {VALUES.map(({ Icon, title, desc }, i) => (
               <div
                 key={title}
-                className={
-                  i > 0 ? 'lg:border-l lg:border-border lg:pl-8' : ''
-                }
+                className={cn(
+                  'transition-all duration-300 hover:-translate-y-1',
+                  i > 0 ? 'lg:border-l lg:border-border lg:pl-8' : '',
+                )}
               >
-                <span className="flex h-14 w-14 items-center justify-center text-brand">
+                <span className="flex h-14 w-14 items-center justify-center text-brand transition-transform duration-300 group-hover:scale-110">
                   <Icon className="h-9 w-9" strokeWidth={1.5} />
                 </span>
                 <h2 className="mt-4 font-serif text-xl font-bold text-brand">
@@ -123,29 +118,7 @@ export default function AboutPage() {
               <h2 className="text-center text-sm font-semibold tracking-widest text-brand">
                 OUR IMPACT TOGETHER
               </h2>
-              <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                {IMPACT.map(({ Icon, value, label }, i) => (
-                  <div
-                    key={label}
-                    className={
-                      'flex items-start gap-4 ' +
-                      (i > 0 ? 'lg:border-l lg:border-brand/20 lg:pl-6' : '')
-                    }
-                  >
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
-                      <Icon className="h-6 w-6" />
-                    </span>
-                    <div>
-                      <p className="font-serif text-2xl font-bold text-forest">
-                        {value}
-                      </p>
-                      <p className="text-sm leading-snug text-muted-foreground">
-                        {label}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <AboutImpactStats />
             </div>
           </div>
         </section>
@@ -163,7 +136,7 @@ export default function AboutPage() {
             </div>
             <Link
               href="/donate"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-background px-7 py-3.5 text-sm font-semibold text-forest transition-colors hover:bg-background/90"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-background px-7 py-3.5 text-sm font-semibold text-forest transition-all duration-200 hover:bg-background/90 hover:shadow-md hover:scale-[1.03] active:scale-[0.97]"
             >
               DONATE NOW
               <Heart className="h-4 w-4 fill-current text-brand" />
