@@ -21,7 +21,10 @@ export const metadata: Metadata = {
   title: 'JILL Foundation | Mental & Medical Health Support',
   description:
     'The JILL Foundation empowers individuals to achieve optimal mental and medical wellness through compassionate care and community support.',
-  generator: 'v0.app',
+  icons: {
+    icon: '/images/favicon.png',
+    apple: '/images/favicon.png',
+  },
 }
 
 export const viewport: Viewport = {
