@@ -15,6 +15,7 @@ export function DonationForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [organization, setOrganization] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -32,13 +33,14 @@ export function DonationForm() {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({ firstName, lastName, email, phone }),
+        body: JSON.stringify({ firstName, lastName, email, phone, organization }),
       });
       setSubmitted(true);
       setFirstName("");
       setLastName("");
       setEmail("");
       setPhone("");
+      setOrganization("");
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -88,6 +90,14 @@ export function DonationForm() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
+            />
+          </div>
+          <div className="mt-4">
+            <Input
+              placeholder="Organization Name (Optional)"
+              aria-label="Organization Name"
+              value={organization}
+              onChange={(e) => setOrganization(e.target.value)}
             />
           </div>
           <label className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
