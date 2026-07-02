@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export function CountUp({
   end,
@@ -16,24 +16,12 @@ export function CountUp({
   className?: string
 }) {
   const [count, setCount] = useState(0)
-  const [started, setStarted] = useState(false)
+  const startedRef = useRef(false)
   const ref = useRef<HTMLSpanElement>(null)
 
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started) setStarted(true)
-      },
-      { threshold: 0.3 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [started])
-
-  useEffect(() => {
-    if (!started) return
+  const animate = useCallback(() => {
+    if (startedRef.current) return
+    startedRef.current = true
     const steps = 60
     const stepDuration = duration / steps
     let frame = 0
@@ -42,16 +30,26 @@ export function CountUp({
       frame++
       const progress = frame / steps
       const eased = 1 - Math.pow(1 - progress, 3)
-      current = Math.round(eased * end)
-      setCount(current)
+      setCount(Math.round(eased * end))
       if (frame >= steps) {
         setCount(end)
         clearInterval(timer)
       }
     }, stepDuration)
+  }, [end, duration])
 
-    return () => clearInterval(timer)
-  }, [started, end, duration])
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) animate()
+      },
+      { threshold: 0.1 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [animate])
 
   return (
     <span ref={ref} className={className}>
