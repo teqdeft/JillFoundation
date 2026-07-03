@@ -4,8 +4,9 @@ import { useState } from "react";
 import { Lock, Loader2, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycby-upeh4Iglv1sMgF3AAsfuS_8VU-W7t5OxQ8DAYCPjT4A-NtQE3YMXjCVwIWHW3DTkIA/exec";
+  "https://script.google.com/macros/s/AKfycbx9WEKf0MbozMccHLwodIZ0_rPmVBWH8zGps1CAb1cWbwCNYzKgmECInm41xpAt_1sbRg/exec";
 
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/83ZFTP5CLTNF4";
 
@@ -33,7 +34,13 @@ export function DonationForm() {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({ firstName, lastName, email, phone, organization }),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          organization,
+        }),
       });
       setSubmitted(true);
       setFirstName("");
