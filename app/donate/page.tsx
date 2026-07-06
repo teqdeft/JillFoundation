@@ -29,13 +29,13 @@ const BADGES = [
   },
 ]
 
-const PARTNERS = [
-  'NAMI',
-  'Mental Health America',
-  'SAMHSA',
-  'United Way',
-  'Community Health Network',
-]
+// const PARTNERS = [
+//   'NAMI',
+//   'Mental Health America',
+//   'SAMHSA',
+//   'United Way',
+//   'Community Health Network',
+// ]
 
 export default function DonatePage() {
   return (
@@ -131,7 +131,7 @@ export default function DonatePage() {
         </section>
 
         {/* Partners */}
-        <section className="border-t border-border bg-background pb-14">
+        {/* <section className="border-t border-border bg-background pb-14">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <p className="pt-10 text-center text-xs font-semibold tracking-widest text-muted-foreground">
               PROUDLY TRUSTED BY OUR PARTNERS
@@ -147,7 +147,7 @@ export default function DonatePage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
       <SiteFooter />
     </div>
