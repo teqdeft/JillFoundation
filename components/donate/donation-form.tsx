@@ -45,10 +45,32 @@ export function DonationForm() {
     document.body.appendChild(script);
   }, [submitted]);
 
+  function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value.replace(/[^0-9+\-() ]/g, "");
+    setPhone(val);
+  }
+
+  function handleNameChange(
+    setter: (v: string) => void,
+  ) {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = e.target.value.replace(/[^a-zA-Z\s'-]/g, "");
+      setter(val);
+    };
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !phone) {
-      setError("Please fill in all fields.");
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim()) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (phone.replace(/[^0-9]/g, "").length < 7) {
+      setError("Please enter a valid phone number.");
       return;
     }
     setError("");
@@ -92,14 +114,14 @@ export function DonationForm() {
               placeholder="First Name"
               aria-label="First Name"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={handleNameChange(setFirstName)}
               required
             />
             <Input
               placeholder="Last Name"
               aria-label="Last Name"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={handleNameChange(setLastName)}
               required
             />
           </div>
@@ -119,7 +141,7 @@ export function DonationForm() {
               placeholder="Phone No"
               aria-label="Phone No"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
               required
             />
           </div>
