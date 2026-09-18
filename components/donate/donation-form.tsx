@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Lock, Loader2, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbx9WEKf0MbozMccHLwodIZ0_rPmVBWH8zGps1CAb1cWbwCNYzKgmECInm41xpAt_1sbRg/exec";
 
-const PAYPAL_URL = "https://www.paypal.com/ncp/payment/83ZFTP5CLTNF4";
+const PAYPAL_BUTTON_ID = "XR8VLKRQ9U8Y6";
 
 export function DonationForm() {
   const [updates, setUpdates] = useState(false);
@@ -20,6 +19,31 @@ export function DonationForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const paypalRef = useRef<HTMLDivElement>(null);
+  const paypalLoaded = useRef(false);
+
+  useEffect(() => {
+    if (!submitted || paypalLoaded.current) return;
+    paypalLoaded.current = true;
+
+    const script = document.createElement("script");
+    script.src = "https://www.paypalobjects.com/donate/sdk/donate-sdk.js";
+    script.charset = "UTF-8";
+    script.onload = () => {
+      if (paypalRef.current && (window as any).PayPal) {
+        (window as any).PayPal.Donation.Button({
+          env: "production",
+          hosted_button_id: PAYPAL_BUTTON_ID,
+          image: {
+            src: "https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif",
+            alt: "Donate with PayPal button",
+            title: "PayPal - The safer, easier way to pay online!",
+          },
+        }).render("#paypal-donate-button");
+      }
+    };
+    document.body.appendChild(script);
+  }, [submitted]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -161,28 +185,22 @@ export function DonationForm() {
             2. Complete Your Donation
           </h3>
 
-          <a
-            href={submitted ? PAYPAL_URL : undefined}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => {
-              if (!submitted) e.preventDefault();
-            }}
-            className={cn(
-              "mt-4 flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-base font-semibold transition-all duration-300",
-              submitted
-                ? "bg-brand text-brand-foreground shadow-md hover:bg-brand/90 hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] cursor-pointer animate-in fade-in slide-in-from-bottom-2"
-                : "bg-muted text-muted-foreground/40 cursor-not-allowed",
-            )}
-          >
-            <Heart className="h-5 w-5 fill-current" />
-            DONATE NOW
-          </a>
-
-          {!submitted && (
-            <p className="mt-3 text-center text-xs text-black animate-pulse">
-              Please fill in your information above first.
-            </p>
+          {submitted ? (
+            <div
+              ref={paypalRef}
+              id="paypal-donate-button"
+              className="mt-4 flex justify-center animate-in fade-in slide-in-from-bottom-2"
+            />
+          ) : (
+            <>
+              <div className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-muted px-6 py-3.5 text-base font-semibold text-muted-foreground/40 cursor-not-allowed">
+                <Heart className="h-5 w-5 fill-current" />
+                DONATE NOW
+              </div>
+              <p className="mt-3 text-center text-xs text-black animate-pulse">
+                Please fill in your information above first.
+              </p>
+            </>
           )}
 
           <p className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground">
