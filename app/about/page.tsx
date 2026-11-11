@@ -143,6 +143,70 @@ export default function AboutPage() {
             </Link>
           </div>
         </section>
+
+        {/* Dr. Jill Gallery */}
+        <section className="bg-background py-16">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2 className="text-center font-serif text-3xl font-bold text-foreground sm:text-4xl">
+              The Vision Behind JILL Foundation
+            </h2>
+            <span className="mx-auto mt-3 block h-1 w-16 rounded-full bg-brand" />
+
+            <div className="mt-12 grid gap-8 sm:grid-cols-2">
+              {/* Meet Dr. Jill */}
+              <div className="group relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <div className="relative aspect-square">
+                  <Image
+                    src="/images/about/meet-dr-jill.jpg"
+                    alt="Meet Dr. Jill Carter Rovaris — Founder & CEO of JILL Foundation"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+
+              {/* Care for the Whole Person */}
+              <div className="group relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <div className="relative aspect-square">
+                  <Image
+                    src="/images/about/care-whole-person.jpg"
+                    alt="Care for the Whole Person — Mind, Body, and Spirit"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+
+              {/* Mission & Vision */}
+              <div className="group relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <div className="relative aspect-square">
+                  <Image
+                    src="/images/about/mission-vision.jpg"
+                    alt="Why was the Dr. Jill Foundation created? — Mission and Vision"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+
+              {/* Join the Journey */}
+              <div className="group relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <div className="relative aspect-square">
+                  <Image
+                    src="/images/about/join-the-journey.webp"
+                    alt="Join the Journey — Support, Connect, Make a Difference"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </div>
